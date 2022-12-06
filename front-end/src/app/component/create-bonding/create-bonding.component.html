@@ -1,0 +1,103 @@
+
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <label for="firstName" class="form-label">Nombre</label>
+        <input class="form-control" 
+            id="firstName"
+            formControlName="firstName"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="secondName" class="form-label">Segundo nombre</label>
+        <input class="form-control" 
+            id="secondName"
+            formControlName="secondName"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="firstSurName" class="form-label">Apellido</label>
+        <input class="form-control" 
+            id="firstSurName"
+            formControlName="firstSurName"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="secondSurName" class="form-label">Segundo nombre</label>
+        <input class="form-control" 
+            id="secondSurName"
+            formControlName="secondSurName"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="contry" class="form-label">Pais</label>
+        <select class="form-select" aria-label="Default select example" formControlName="contry">
+            <option selected>Seleccionar</option>
+            <option value="COL">Colombia</option>
+            <option value="EEUU">Estados Unidos</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Tipo de identificacion</label>
+        <select class="form-select" aria-label="Default select example">
+            <option selected>Seleccionar</option>
+            <option value="CC">Cedula de ciudadania</option>
+            <option value="CE">Cedula de extrangeria</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="identityNumber" class="form-label">Identificacion</label>
+        <input class="form-control" 
+            id="identityNumber"
+            formControlName="identityNumber"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Correo</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" [value]="candidate.email" [disabled]="true" >
+    </div>
+
+    <div *ngIf="checkoutForm.invalid " class="alert">
+        <div *ngIf="this.checkoutForm.get('firstName')?.errors && (this.checkoutForm.get('firstName')?.dirty)" class="alert alert-danger" role="alert">
+            Primer Apellido: Solo permite caracteres de la A a la Z, mayúscula, sin acentos ni Ñ. Es requerido y su longitud máxima será de 20 letras
+        </div>
+        <div *ngIf="this.checkoutForm.get('secondName')?.errors && (this.checkoutForm.get('secondName')?.dirty)" class="alert alert-danger" role="alert">
+            Segundo nombre: Solo permite caracteres de la A a la Z, mayúscula, sin acentos ni Ñ. Es requerido y su longitud máxima será de 20 letras
+        </div>
+        <div *ngIf="this.checkoutForm.get('firstSurName')?.errors && (this.checkoutForm.get('firstSurName')?.dirty)" class="alert alert-danger" role="alert">
+            Es el número de identificación del empleado, debe ser alfanumérico permitiendo los siguientes conjuntos de caracteres (a-z / A-Z / 0-9 / -). No podrán existir dos empleados con el mismo número y tipo de identificación. Su longitud máxima serán 20 caracteres
+        </div>
+    </div>
+
+    <div *ngIf="procesState.status == 'LOADING'" class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="spinner-border text-success" role="status">
+            <span class="sr-only"></span>
+        </div>
+        <strong>Generando Correo</strong> Porfavor espera un momento mientras se inserta la informacion.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div *ngIf="procesState.status == 'ERROR'" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="spinner-grow text-danger" role="status">
+            <span class="sr-only"></span>
+        </div>
+        <strong>Error</strong> Se presento un error, Porfavor intenta mas tarde
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div *ngIf="procesState.status == 'SUCCESS'" class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="spinner-grow text-success" role="status">
+            <span class="sr-only"></span>
+        </div>
+        <strong>Empleado creado</strong> Se a generado correcta mente el Empleado
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!checkoutForm.valid">Crear candidato</button>
+</form>
